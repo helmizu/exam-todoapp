@@ -6,6 +6,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import HomeScreen from './src/screens/Home';
 import TasksScreen from './src/screens/Tasks';
+import ProfileScreen from './src/screens/Profile';
 
 const Tab = createBottomTabNavigator();
 
@@ -24,6 +25,7 @@ function App(): JSX.Element {
               tabBarIcon: ({color, size}) => (
                 <Ionicons name="home-outline" color={color} size={size} />
               ),
+              headerShown: false,
             }}
             component={HomeScreen}
           />
@@ -33,6 +35,7 @@ function App(): JSX.Element {
               tabBarIcon: ({color, size}) => (
                 <Ionicons name="calendar-outline" color={color} size={size} />
               ),
+              headerShown: false,
             }}
             component={TasksScreen}
           />
@@ -43,7 +46,7 @@ function App(): JSX.Element {
                 <Ionicons name="person-outline" color={color} size={size} />
               ),
             }}
-            component={TasksScreen}
+            component={ProfileScreen}
           />
         </Tab.Navigator>
       </NavigationContainer>
