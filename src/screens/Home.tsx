@@ -1,7 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import {
   StyleSheet,
-  Text,
   View,
   Pressable,
   ScrollView,
@@ -15,9 +14,10 @@ import {DATA_CATEGORIES} from '../constants/Categories';
 import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
 import {getData, storeData} from '../utils/storage';
 import FormCreateTask from '../components/FormCreateTask';
-import imageNoData from '../assets/negative-case-no-data.png';
+import imageNoData from '../assets/images/negative-case-no-data.png';
 import dayjs from 'dayjs';
 import DetailTask from '../components/DetailTask';
+import Text from '../components/Text';
 
 const Home = ({navigation}: {navigation: BottomTabNavigationProp<any>}) => {
   const [user, setUser] = useState<{name: string} | null>(null);
@@ -142,7 +142,7 @@ const Home = ({navigation}: {navigation: BottomTabNavigationProp<any>}) => {
                     justifyContent: 'center',
                     width: 300,
                     alignSelf: 'center',
-                    padding: 16,
+                    paddingHorizontal: 16,
                     gap: 8,
                   }}>
                   <Image

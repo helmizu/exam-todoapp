@@ -1,5 +1,6 @@
-import {TouchableOpacity, StyleSheet, Text, View} from 'react-native';
+import {TouchableOpacity, StyleSheet, View} from 'react-native';
 import React from 'react';
+import Text from './Text';
 
 interface IProps {
   variant?: 'outlined' | 'contained';

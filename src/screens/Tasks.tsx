@@ -1,7 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import {
   StyleSheet,
-  Text,
   View,
   Pressable,
   ScrollView,
@@ -14,12 +13,13 @@ import CardTask from '../components/CardTask';
 import {DATA_CATEGORIES} from '../constants/Categories';
 import {getData, storeData} from '../utils/storage';
 import FormCreateTask from '../components/FormCreateTask';
-import imageNoData from '../assets/negative-case-no-data.png';
-import imageNotFound from '../assets/negative-case-data-not-found.png';
+import imageNoData from '../assets/images/negative-case-no-data.png';
+import imageNotFound from '../assets/images/negative-case-data-not-found.png';
 import dayjs from 'dayjs';
 import InputBase from '../components/InputBase';
 import Tag from '../components/Tag';
 import DetailTask from '../components/DetailTask';
+import Text from '../components/Text';
 
 const Tasks = () => {
   const [tasks, setTasks] = useState<any[]>([]);

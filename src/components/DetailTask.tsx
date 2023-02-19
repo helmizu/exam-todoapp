@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import {Text, View} from 'react-native';
+import {View} from 'react-native';
 import React from 'react';
 import * as yup from 'yup';
 import BottomSheet from './BottomSheet';
@@ -7,6 +7,7 @@ import Button from './Button';
 import {StyleSheet} from 'react-native';
 import dayjs from 'dayjs';
 import Tag from './Tag';
+import Text from './Text';
 
 const schema = yup
   .object({

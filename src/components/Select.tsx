@@ -1,8 +1,9 @@
 /* eslint-disable react-native/no-inline-styles */
-import {StyleSheet, Text, TextInput, TextInputProps, View} from 'react-native';
+import {StyleSheet, TextInput, TextInputProps, View} from 'react-native';
 import React from 'react';
 import SelectDropdown from 'react-native-select-dropdown';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import Text from './Text';
 
 interface IProps extends TextInputProps {
   label?: string;
@@ -53,11 +54,16 @@ const Select = ({
 export default Select;
 
 const styles = StyleSheet.create({
-  label: {fontSize: 16, marginBottom: 8, color: '#556172'},
+  label: {
+    fontSize: 16,
+    marginBottom: 8,
+    color: '#556172',
+  },
   input: {
     fontSize: 16,
-    height: 24,
+    minHeight: 24,
     color: '#707070',
+    paddingVertical: 0,
   },
   containerInput: {
     paddingTop: 16,

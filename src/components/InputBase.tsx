@@ -1,6 +1,7 @@
-import {StyleSheet, Text, TextInput, TextInputProps, View} from 'react-native';
+import {StyleSheet, TextInput, TextInputProps, View} from 'react-native';
 import React from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import Text from './Text';
 
 interface IProps extends TextInputProps {
   label?: string;
@@ -23,7 +24,11 @@ const InputBase = ({
         {!!iconStart && <Ionicons name={iconStart} color="#556172" size={24} />}
         <TextInput
           {...props}
-          style={[props.style, styles.input].flat()}
+          style={[
+            props.style,
+            styles.input,
+            props.multiline ? styles.inputMultiline : {},
+          ].flat()}
           underlineColorAndroid="transparent"
           placeholderTextColor="#B1B6BD"
           autoCorrect={false}
@@ -40,7 +45,13 @@ export default InputBase;
 const styles = StyleSheet.create({
   container: {width: '100%'},
   label: {fontSize: 16, marginBottom: 8, color: '#556172'},
-  input: {fontSize: 16, height: 24, color: '#707070', flex: 1},
+  input: {
+    fontSize: 16,
+    minHeight: 24,
+    color: '#707070',
+    flex: 1,
+    paddingVertical: 0,
+  },
   containerInput: {
     padding: 16,
     borderWidth: 1,
@@ -51,4 +62,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   error: {fontSize: 14, marginTop: 4, color: '#ff2131'},
+  inputMultiline: {textAlignVertical: 'top'},
 });

@@ -178,7 +178,7 @@ const FormCreateTask = ({data, onSubmit}: IProps) => {
                 multiline
                 numberOfLines={3}
                 scrollEnabled
-                style={{minHeight: 64}}
+                style={{minHeight: 64, textAlignVertical: 'top'}}
                 onChangeText={onChange}
                 value={value}
                 onBlur={onBlur}

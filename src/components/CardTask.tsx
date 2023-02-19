@@ -1,7 +1,8 @@
 /* eslint-disable react-native/no-inline-styles */
-import {Text, View} from 'react-native';
+import {View} from 'react-native';
 import React from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import Text from './Text';
 
 const mapColorStatus = (status: string) => {
   if (status === 'Done') {

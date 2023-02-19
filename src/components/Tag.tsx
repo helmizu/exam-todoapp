@@ -1,5 +1,6 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import React, {PropsWithChildren} from 'react';
+import Text from './Text';
 
 interface IProps {
   active?: boolean;
@@ -30,7 +31,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderColor: '#D8D9DB',
-    borderWidth: StyleSheet.hairlineWidth,
+    borderWidth: 1,
     borderRadius: 12,
   },
   activeContainer: {

@@ -10,6 +10,7 @@ import ProfileScreen from './src/screens/Profile';
 import * as storage from './src/utils/storage';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import InitializeScreen from './src/screens/Initialize';
+import {StatusBar} from 'react-native';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -65,6 +66,7 @@ function App(): JSX.Element {
 
   return (
     <SafeAreaProvider>
+      <StatusBar backgroundColor="white" barStyle="dark-content" />
       <NavigationContainer>
         <Stack.Navigator
           initialRouteName={first ? 'Initialize' : 'HomeStack'}

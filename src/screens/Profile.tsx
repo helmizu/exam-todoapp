@@ -1,7 +1,8 @@
 /* eslint-disable react-native/no-inline-styles */
-import {View, Text, SafeAreaView, Image, StyleSheet} from 'react-native';
+import {View, SafeAreaView, Image, StyleSheet} from 'react-native';
 import React from 'react';
-import imageUnderMaintenance from '../assets/negative-case-under-maintenance.png';
+import imageUnderMaintenance from '../assets/images/negative-case-under-maintenance.png';
+import Text from '../components/Text';
 
 const ProfileScreen = () => {
   return (

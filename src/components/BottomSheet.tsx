@@ -1,14 +1,8 @@
-import {
-  Modal,
-  StyleSheet,
-  Text,
-  SafeAreaView,
-  View,
-  Pressable,
-} from 'react-native';
+import {Modal, StyleSheet, SafeAreaView, View, Pressable} from 'react-native';
 import React from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import Text from './Text';
 
 interface IProps {
   title?: string;

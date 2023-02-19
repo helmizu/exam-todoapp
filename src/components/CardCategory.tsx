@@ -1,7 +1,8 @@
 /* eslint-disable react-native/no-inline-styles */
-import {Text, View} from 'react-native';
+import {View} from 'react-native';
 import React from 'react';
 import LinearGradient from 'react-native-linear-gradient';
+import Text from './Text';
 
 const COLORS = ['#0093E0', '#E95400', '#FF6961'];
 

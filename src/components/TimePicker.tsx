@@ -1,9 +1,10 @@
 /* eslint-disable react-native/no-inline-styles */
-import {Pressable, StyleSheet, Text, TextProps, View} from 'react-native';
+import {Pressable, StyleSheet, TextProps, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import RNDatePicker from 'react-native-modern-datepicker';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import BottomSheet from './BottomSheet';
+import Text from './Text';
 
 interface IProps extends TextProps {
   label?: string;
