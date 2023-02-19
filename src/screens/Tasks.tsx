@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import CardTask from '../components/CardTask';
-import {DATA_CATEGORIES} from '../constant/Categories';
+import {DATA_CATEGORIES} from '../constants/Categories';
 import {getData, storeData} from '../utils/storage';
 import FormCreateTask from '../components/FormCreateTask';
 import imageNoData from '../assets/negative-case-no-data.png';

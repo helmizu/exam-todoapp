@@ -11,7 +11,7 @@ import TimePicker from './TimePicker';
 import Select from './Select';
 import Button from './Button';
 import FAB from './FAB';
-import {DATA_CATEGORIES} from '../constant/Categories';
+import {DATA_CATEGORIES} from '../constants/Categories';
 import dayjs from 'dayjs';
 
 const schema = yup
