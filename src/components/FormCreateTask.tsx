@@ -17,12 +17,18 @@ import dayjs from 'dayjs';
 const schema = yup
   .object({
     id: yup.number().required(),
-    title: yup.string().required(),
-    date: yup.string().required(),
-    startTime: yup.string().required(),
-    endTime: yup.string().required(),
-    description: yup.string().required(),
-    category: yup.string().required(),
+    title: yup.string().label('Title').required('${label} is a required'),
+    date: yup.string().label('Date').required('${label} is a required'),
+    startTime: yup
+      .string()
+      .label('Start Time')
+      .required('${label} is a required'),
+    endTime: yup.string().label('End Time').required('${label} is a required'),
+    description: yup
+      .string()
+      .label('Description')
+      .required('${label} is a required'),
+    category: yup.string().label('Category').required('${label} is a required'),
     status: yup.string().required(),
   })
   .required();
@@ -90,8 +96,11 @@ const FormCreateTask = ({data, onSubmit}: IProps) => {
       <BottomSheet
         title="New Task"
         open={openModalTask}
-        onClose={() => setOpenModalTask(false)}>
-        <View style={{gap: 24}}>
+        onClose={() => {
+          setOpenModalTask(false);
+          reset();
+        }}>
+        <View style={{gap: 16}}>
           <Controller
             control={control}
             render={({
