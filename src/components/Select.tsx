@@ -7,14 +7,22 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 interface IProps extends TextInputProps {
   label?: string;
   options?: string[];
+  error?: string;
 }
 
-const Select = ({label = '', options = [], ...props}: IProps) => {
+const Select = ({
+  label = '',
+  options = [],
+  error = '',
+  value,
+  ...props
+}: IProps) => {
   return (
     <View>
       {!!label && <Text style={styles.label}>{label}</Text>}
       <SelectDropdown
         data={options}
+        defaultValue={value}
         onSelect={(selectedItem: string) => props?.onChangeText?.(selectedItem)}
         buttonTextAfterSelection={(selectedItem: string) => selectedItem}
         rowTextForSelection={(item: string) => item}
@@ -37,6 +45,7 @@ const Select = ({label = '', options = [], ...props}: IProps) => {
           <Ionicons name="chevron-down-outline" color="#556172" size={24} />
         )}
       />
+      {!!error && <Text style={styles.error}>{error}</Text>}
     </View>
   );
 };
@@ -58,11 +67,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     borderWidth: 1,
     borderRadius: 12,
-    borderColor: '#E8E9EB',
+    borderColor: '#D8D9DB',
     gap: 8,
     alignItems: 'center',
     width: '100%',
     height: undefined,
     backgroundColor: 'transparent',
   },
+  error: {fontSize: 14, marginTop: 4, color: '#ff2131'},
 });

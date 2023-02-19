@@ -12,8 +12,9 @@ interface IProps {
   index?: number;
 }
 
-const CardCategory = ({name, total, done = 0, index = 0}: IProps) => {
+const CardCategory = ({name, total = 0, done = 0, index = 0}: IProps) => {
   const mainColor = COLORS[index];
+  const percentage = total ? Math.trunc((done * 100) / total) : 0;
   return (
     <View
       style={{
@@ -38,7 +39,6 @@ const CardCategory = ({name, total, done = 0, index = 0}: IProps) => {
             paddingTop: 48,
             borderTopLeftRadius: 12,
             borderTopRightRadius: 12,
-            // backgroundColor: mainColor,
           }}>
           <Text style={{color: '#FFFFFF', fontSize: 16, fontWeight: '500'}}>
             {name}
@@ -56,7 +56,7 @@ const CardCategory = ({name, total, done = 0, index = 0}: IProps) => {
           borderBottomLeftRadius: 12,
         }}>
         <Text style={{color: '#363942', fontSize: 15, fontWeight: '600'}}>
-          {Math.trunc((done * 100) / total)}%
+          {percentage}%
         </Text>
         <View
           style={{
@@ -71,7 +71,7 @@ const CardCategory = ({name, total, done = 0, index = 0}: IProps) => {
               height: 2,
               borderRadius: 1,
               backgroundColor: '#1FA8E7',
-              width: `${Math.trunc((done * 100) / total)}%`,
+              width: `${percentage}%`,
             }}
           />
         </View>

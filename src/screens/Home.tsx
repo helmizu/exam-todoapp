@@ -2,132 +2,177 @@
 import {
   StyleSheet,
   Text,
-  SafeAreaView,
   View,
   Pressable,
   ScrollView,
+  SafeAreaView,
+  Image,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import CardCategory from '../components/CardCategory';
 import CardTask from '../components/CardTask';
-import InputBase from '../components/InputBase';
-import BottomSheet from '../components/BottomSheet';
-import Button from '../components/Button';
-import Select from '../components/Select';
-import {DATA_CATEGORIES} from '../Constants/Categories';
-import DatePicker from '../components/DatePicker';
-import TimePicker from '../components/TimePicker';
+import {DATA_CATEGORIES} from '../constant/Categories';
+import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
+import {getData, storeData} from '../utils/storage';
+import FormCreateTask from '../components/FormCreateTask';
+import imageNoData from '../assets/negative-case-no-data.png';
+import dayjs from 'dayjs';
+import DetailTask from '../components/DetailTask';
 
-const Home = () => {
-  const [openModalTask, setOpenModalTask] = useState<boolean>(false);
+const Home = ({navigation}: {navigation: BottomTabNavigationProp<any>}) => {
+  const [user, setUser] = useState<{name: string} | null>(null);
+  const [tasks, setTasks] = useState<any[]>([]);
+  const [selectedTask, setSelectedTask] = useState<{[key: string]: any} | null>(
+    null,
+  );
+  const dailyTasks = tasks.filter(item => item.category === DATA_CATEGORIES[0]);
+  const workTasks = tasks.filter(item => item.category === DATA_CATEGORIES[1]);
+  const schoolTasks = tasks.filter(
+    item => item.category === DATA_CATEGORIES[2],
+  );
+  const mapCategories = {
+    [DATA_CATEGORIES[0]]: dailyTasks,
+    [DATA_CATEGORIES[1]]: workTasks,
+    [DATA_CATEGORIES[2]]: schoolTasks,
+  };
+
+  const loadUser = async () => {
+    const data = await getData('user');
+    setUser(data);
+  };
+
+  const getTask = async () => {
+    const data = await getData('tasks');
+    if (data) {
+      setTasks(data);
+    } else {
+      setTasks([]);
+    }
+  };
+
+  const onSaveTasks = async (data: any) => {
+    if (data.id) {
+      const indexToUpdate = tasks.findIndex(item => item.id === data.id);
+      const copyOfTasks = [...tasks];
+      copyOfTasks[indexToUpdate] = data;
+      setTasks([...copyOfTasks]);
+      storeData('tasks', [...copyOfTasks]);
+    } else {
+      const dataWithId = {
+        ...data,
+        id: tasks.length
+          ? tasks.sort((a, b) => a.id - b.id)[tasks.length - 1].id + 1
+          : 1,
+      };
+      setTasks(prev => [dataWithId, ...prev]);
+      storeData('tasks', [dataWithId, ...tasks]);
+    }
+  };
+
+  useEffect(() => {
+    loadUser();
+    getTask();
+  }, []);
+
   return (
-    <SafeAreaView>
-      <ScrollView>
+    <SafeAreaView style={{flexGrow: 1}}>
+      <ScrollView style={{flexGrow: 1}}>
         <View style={styles.container}>
           <View style={styles.hStack}>
             <View style={styles.avatar} />
             <View>
-              <Text style={styles.headline}>Hello, [Name]</Text>
+              <Text style={styles.headline}>Hello, {user?.name}</Text>
             </View>
           </View>
-          <View style={{gap: 16}}>
+          <View style={styles.section}>
             <View style={styles.sectionHead}>
               <Text style={styles.title}>Categories</Text>
-              <Pressable>
+              {/* <Pressable>
                 <Text style={[styles.body1, styles.opacity05]}>View All</Text>
-              </Pressable>
+              </Pressable> */}
             </View>
             <ScrollView
               horizontal
               showsHorizontalScrollIndicator={false}
               style={styles.hScroll}>
               <View style={[styles.hStack, {paddingHorizontal: 16}]}>
-                <CardCategory
-                  index={0}
-                  name="Work Assignment"
-                  total={4}
-                  done={3}
-                />
-                <CardCategory
-                  index={1}
-                  name="Daily Activity"
-                  total={3}
-                  done={3}
-                />
-                <CardCategory index={2} name="School Task" total={5} done={2} />
+                {DATA_CATEGORIES.map((cat, index) => (
+                  <CardCategory
+                    index={index}
+                    name={cat}
+                    total={mapCategories[cat].length}
+                    done={
+                      mapCategories[cat].filter(
+                        item => item.status !== 'On Progress',
+                      ).length
+                    }
+                    key={cat}
+                  />
+                ))}
               </View>
             </ScrollView>
           </View>
-          <View style={{gap: 16}}>
+          <View style={styles.section}>
             <View style={styles.sectionHead}>
-              <Text style={styles.title}>My Task (4)</Text>
-              <Pressable onPress={() => setOpenModalTask(true)}>
-                <Text style={[styles.body1, styles.opacity05]}>View All</Text>
-              </Pressable>
+              <Text style={styles.title}>My Task ({tasks.length})</Text>
+              {tasks.length > 3 && (
+                <Pressable onPress={() => navigation.navigate('Tasks')}>
+                  <Text style={[styles.body1, styles.opacity05]}>View All</Text>
+                </Pressable>
+              )}
             </View>
             <View style={{gap: 16}}>
-              <CardTask
-                title="Judul Aktivitas"
-                category="Category"
-                date="Sabtu, 22 Feb 2023"
-                startTime="08:00"
-                endTime="10:00"
-                status="On Progress"
-              />
-              <CardTask
-                title="Judul Aktivitas"
-                category="Category"
-                date="Sabtu, 22 Feb 2023"
-                startTime="08:00"
-                endTime="10:00"
-                status="On Progress"
-              />
-              <CardTask
-                title="Judul Aktivitas"
-                category="Category"
-                date="Sabtu, 22 Feb 2023"
-                startTime="08:00"
-                endTime="10:00"
-                status="On Progress"
-              />
-            </View>
-          </View>
-          <View>
-            <BottomSheet
-              title="New Task"
-              open={openModalTask}
-              onClose={() => setOpenModalTask(false)}>
-              <View style={{gap: 24}}>
-                <InputBase label="Title" placeholder="Buy some stuff" />
-                <DatePicker label="Date" placeholder="dddd, DD MMM YYYY" />
-                <View style={{flexDirection: 'row', gap: 24}}>
-                  <View style={{flex: 1}}>
-                    <TimePicker label="Start" placeholder="HH:mm" />
-                  </View>
-                  <View style={{flex: 1}}>
-                    <TimePicker label="End" placeholder="HH:mm" />
-                  </View>
+              {tasks.slice(0, 3).map(task => (
+                <Pressable onPress={() => setSelectedTask(task)} key={task.id}>
+                  <CardTask
+                    key={task.id}
+                    title={task.title}
+                    category={task.category}
+                    date={dayjs(task.date).format('dddd, DD MMM YYYY')}
+                    startTime={dayjs(task.startTime).format('HH:mm')}
+                    endTime={dayjs(task.endTime).format('HH:mm')}
+                    status={task.status}
+                  />
+                </Pressable>
+              ))}
+              {!tasks.length && (
+                <View
+                  style={{
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    width: 300,
+                    alignSelf: 'center',
+                    padding: 16,
+                    gap: 8,
+                  }}>
+                  <Image
+                    source={imageNoData}
+                    alt="img-no-data"
+                    style={{width: 240, height: 240, resizeMode: 'contain'}}
+                  />
+                  <Text style={[styles.subtitle1, {textAlign: 'center'}]}>
+                    No Tasks yet!
+                  </Text>
+                  <Text
+                    style={[
+                      styles.body2,
+                      {textAlign: 'center', color: '#707070'},
+                    ]}>
+                    Tasks that have been added will be displayed here.
+                  </Text>
                 </View>
-                <InputBase
-                  label="Description"
-                  placeholder="Apple 1kg, ..."
-                  multiline
-                  numberOfLines={3}
-                  scrollEnabled
-                  style={{minHeight: 64}}
-                />
-                <Select
-                  label="Category"
-                  placeholder="Daily Activity"
-                  onChangeText={console.log}
-                  options={DATA_CATEGORIES}
-                />
-                <Button>Create a new task</Button>
-              </View>
-            </BottomSheet>
+              )}
+            </View>
           </View>
         </View>
       </ScrollView>
+      <FormCreateTask onSubmit={onSaveTasks} />
+      <DetailTask
+        data={selectedTask}
+        open={!!selectedTask}
+        onClose={() => setSelectedTask(null)}
+        onUpdate={onSaveTasks}
+      />
     </SafeAreaView>
   );
 };
@@ -190,5 +235,8 @@ const styles = StyleSheet.create({
   },
   opacity05: {
     opacity: 0.5,
+  },
+  section: {
+    gap: 16,
   },
 });

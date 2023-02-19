@@ -1,14 +1,16 @@
 /* eslint-disable react-native/no-inline-styles */
 import {Pressable, StyleSheet, Text, TextProps, View} from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import RNDatePicker from 'react-native-modern-datepicker';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import BottomSheet from './BottomSheet';
-import dayjs from 'dayjs';
 
 interface IProps extends TextProps {
   label?: string;
+  value?: string;
+  error?: string;
   onChangeText?: (value: string) => void;
+  onBlur?: () => void;
   placeholder?: string;
   format?: string;
 }
@@ -18,10 +20,19 @@ const TimePicker = ({
   onChangeText,
   placeholder,
   format = 'HH:mm',
+  value = '',
+  onBlur,
+  error = '',
   ...props
 }: IProps) => {
   const [selectedTime, setSelectedTime] = useState<string>('');
   const [openModal, setOpenModal] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (value) {
+      setSelectedTime(value);
+    }
+  }, [value]);
 
   return (
     <View>
@@ -39,6 +50,7 @@ const TimePicker = ({
         </Text>
         <Ionicons name="time-outline" color="#556172" size={24} />
       </Pressable>
+      {!!error && <Text style={styles.error}>{error}</Text>}
       <BottomSheet open={openModal} onClose={() => setOpenModal(false)}>
         <RNDatePicker
           options={{
@@ -56,9 +68,9 @@ const TimePicker = ({
             borderRadius: 12,
           }}
           onTimeChange={(time: string) => {
-            console.log({time});
             setSelectedTime(time);
-            onChangeText?.(dayjs(time, 'HH:mm').format(format));
+            onChangeText?.(time);
+            onBlur?.();
             setOpenModal(false);
           }}
         />
@@ -76,7 +88,7 @@ const styles = StyleSheet.create({
     padding: 16,
     borderWidth: 1,
     borderRadius: 12,
-    borderColor: '#E8E9EB',
+    borderColor: '#D8D9DB',
     gap: 8,
     flexDirection: 'row',
     alignItems: 'center',
@@ -84,4 +96,5 @@ const styles = StyleSheet.create({
   placeholder: {
     color: '#B1B6BD',
   },
+  error: {fontSize: 14, marginTop: 4, color: '#ff2131'},
 });

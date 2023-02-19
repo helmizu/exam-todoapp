@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import {Pressable, StyleSheet, Text, TextProps, View} from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import RNDatePicker from 'react-native-modern-datepicker';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import BottomSheet from './BottomSheet';
@@ -8,7 +8,10 @@ import dayjs from 'dayjs';
 
 interface IProps extends TextProps {
   label?: string;
+  value?: string;
+  error?: string;
   onChangeText?: (value: string) => void;
+  onBlur?: () => void;
   placeholder?: string;
   format?: string;
 }
@@ -18,14 +21,23 @@ const DatePicker = ({
   onChangeText,
   placeholder,
   format = 'dddd, DD MMMM YYYY',
+  value = '',
+  onBlur,
+  error = '',
   ...props
 }: IProps) => {
-  const [selectedDate, setSelectedDate] = useState<string>('');
+  const [selectedDate, setSelectedDate] = useState<string>(value);
   const [openModal, setOpenModal] = useState<boolean>(false);
-  console.log({selectedDate});
+
   const dateToRender = selectedDate
     ? dayjs(selectedDate, 'YYYY/MM/DD').format(format)
     : selectedDate;
+
+  useEffect(() => {
+    if (value) {
+      setSelectedDate(value);
+    }
+  }, [value]);
 
   return (
     <View>
@@ -43,6 +55,7 @@ const DatePicker = ({
         </Text>
         <Ionicons name="calendar-outline" color="#556172" size={24} />
       </Pressable>
+      {!!error && <Text style={styles.error}>{error}</Text>}
       <BottomSheet open={openModal} onClose={() => setOpenModal(false)}>
         <RNDatePicker
           options={{
@@ -61,6 +74,7 @@ const DatePicker = ({
           onSelectedChange={(date: string) => {
             setSelectedDate(date);
             onChangeText?.(date);
+            onBlur?.();
             setOpenModal(false);
           }}
           selected={selectedDate}
@@ -79,7 +93,7 @@ const styles = StyleSheet.create({
     padding: 16,
     borderWidth: 1,
     borderRadius: 12,
-    borderColor: '#E8E9EB',
+    borderColor: '#D8D9DB',
     gap: 8,
     flexDirection: 'row',
     alignItems: 'center',
@@ -87,4 +101,5 @@ const styles = StyleSheet.create({
   placeholder: {
     color: '#B1B6BD',
   },
+  error: {fontSize: 14, marginTop: 4, color: '#ff2131'},
 });

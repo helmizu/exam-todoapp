@@ -4,17 +4,26 @@ import React from 'react';
 interface IProps {
   variant?: 'outlined' | 'contained';
   onPress?: (e: any) => void;
+  disabled?: boolean;
 }
 
 const Button = ({
   variant = 'contained',
   onPress,
   children,
+  disabled = false,
 }: React.PropsWithChildren<IProps>) => {
   return (
-    <TouchableOpacity onPress={onPress}>
-      <View style={[styles.button, styles[variant]]}>
-        <Text style={[styles.textButton, styles[variant]]}>{children}</Text>
+    <TouchableOpacity onPress={onPress} disabled={disabled}>
+      <View
+        style={[styles.button, disabled ? styles.disabled : styles[variant]]}>
+        <Text
+          style={[
+            styles.textButton,
+            disabled ? styles.textDisabled : styles[variant],
+          ]}>
+          {children}
+        </Text>
       </View>
     </TouchableOpacity>
   );
@@ -44,5 +53,12 @@ const styles = StyleSheet.create({
   textButton: {
     fontSize: 16,
     fontWeight: '500',
+  },
+  disabled: {
+    backgroundColor: '#C9CED0',
+    borderColor: '#C9CED0',
+  },
+  textDisabled: {
+    color: '#808C92',
   },
 });

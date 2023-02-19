@@ -3,6 +3,16 @@ import {Text, View} from 'react-native';
 import React from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
+const mapColorStatus = (status: string) => {
+  if (status === 'Done') {
+    return '#50C890';
+  }
+  if (status === 'Cancel') {
+    return '#de2131';
+  }
+  return '#4B7BE5';
+};
+
 interface IProps {
   title: string;
   category: string;
@@ -93,7 +103,7 @@ const CardTask = ({
         <View
           style={{
             padding: 8,
-            backgroundColor: '#4B7BE5',
+            backgroundColor: mapColorStatus(status),
             borderRadius: 16,
           }}>
           <Text
